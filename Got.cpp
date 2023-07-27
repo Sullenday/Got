@@ -58,11 +58,13 @@ public:
         else {
             cout << "Ничья!!!\n";
         }
-        cout << "Для рестарта нажмите R";
+        cout << "Для рестарта нажмите R\n";
         int key = _getch();
-        if (key == 114) {
-            reset();
+        while ((key != 114) && (key != 170)) {
+            key = _getch();
+            cout << "Для рестарта нажмите R\n";
         }
+        reset();
     }
 
     void reset() {
@@ -219,13 +221,19 @@ public:
 
     void freelandconquer() {
         int counter = 0;
+        bool flag = true;
         for (int i = 0; i < 81; i++) {
             if (life[i][0] != -1) {
                 counter++;
             }
         }
-        if ((counter >= coun / 3) && (coun < 35)) {
-            bool flag = false;
+        for (int i = 1; i < 81; i++) {
+            if ((life[i][0] != -1) && (board[life[i][0]][life[i][1]] != board[life[0][0]][life[0][1]])) {
+                flag = false;
+            }
+        }
+        if ((counter >= coun / 3) && (coun < 35) && (flag)) {
+            flag = false;
             for (int i = 0; i < 81; i++) {
                 if (dots[i][0] == 0) {
                     flag = true;
@@ -343,10 +351,12 @@ public:
                 }
                        break;
                 case 114: reset();
-                    stone1, stone2 = 20, 20;
+                    stone1 = 20;
+                    stone2 = 20;
                     break;
                 case 170: reset();
-                    stone1, stone2 = 20, 20;
+                    stone1 = 20;
+                    stone2 = 20;
                     break;
                 }
 
@@ -376,7 +386,8 @@ public:
                 }
                 if (pas == 2) {
                     isEnd();
-                    stone1, stone2 = 20, 20;
+                    stone1 = 20;
+                    stone2 = 20;
                 }
             }
             else {
@@ -431,9 +442,10 @@ public:
                           else { cout << "Самоубийственный ход невозможен\n"; }
                           break;
                     }
-                    if ((stone1 == 0) && (stone2 == 0)) {
+                    if ((stone1 <= 0) && (stone2 <= 0)) {
                         isEnd();
-                        stone1, stone2 = 20, 20;
+                        stone1 = 20;
+                        stone2 = 20;
                     }
                 }
                 else {
