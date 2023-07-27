@@ -234,6 +234,9 @@ public:
                 }
             }
         }
+        if ((coun == 1) && ((dots[0][0] == 0) && (dots[0][1] == 0) || (dots[0][0] == 0) && (dots[0][1] == 8) || (dots[0][0] == 8) && (dots[0][1] == 0) || (dots[0][0] == 8) && (dots[0][1] == 8))) {
+            counter = 3;
+        }
         if ((counter >= coun / 3) && (coun < 35) && (counter > 2) && (flag) ) {
             flag = false;
             for (int i = 0; i < 81; i++) {
