@@ -343,8 +343,10 @@ public:
                 }
                        break;
                 case 114: reset();
+                    stone1, stone2 = 20, 20;
                     break;
                 case 170: reset();
+                    stone1, stone2 = 20, 20;
                     break;
                 }
 
@@ -374,12 +376,23 @@ public:
                 }
                 if (pas == 2) {
                     isEnd();
+                    stone1, stone2 = 20, 20;
                 }
             }
             else {
                 pas = 0;
                 if ((board[i][j] == 0) || (board[i][j] == -whoturn)) {
                     board[i][j] = whoturn;
+                    breath(i, j);
+                    bool flag = true;
+                    for (int i = 0; i < 81; i++) {
+                        if ((life[i][0] != -1) && (life[i][1] != -1)) {
+                            flag = false;
+                        }
+                    }
+                    if (flag == true) {
+                        board[i][j] = 0;
+                    }
                     for (int i1 = 0; i1 < 9; i1++) {
                         for (int j1 = 0; j1 < 9; j1++) {
                             if (board[i1][j1] == 1 || board[i1][j1] == 2) {
@@ -399,21 +412,28 @@ public:
                     }
                     key = _getch();
                     switch (whoturn) {
-                    case 1: stone1--;
+                    case 1: if (board[i][j] != 0) {
+                        stone1--;
                         if (stone2 != 0) {
                             whoturn++;
                             oppos--;
                         }
-                        break;
-                    case 2: stone2--;
+                    }
+                          else { cout << "Самоубийственный ход невозможен\n"; }
+                          break;
+                    case 2: if (board[i][j] != 0) {
+                        stone2--;
                         if (stone1 != 0) {
                             whoturn--;
                             oppos++;
                         }
-                        break;
+                    }
+                          else { cout << "Самоубийственный ход невозможен\n"; }
+                          break;
                     }
                     if ((stone1 == 0) && (stone2 == 0)) {
                         isEnd();
+                        stone1, stone2 = 20, 20;
                     }
                 }
                 else {
