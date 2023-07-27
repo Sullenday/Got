@@ -234,7 +234,7 @@ public:
                 }
             }
         }
-        if ((counter >= coun / 3) && (coun < 35) && (flag)) {
+        if ((counter >= coun / 3) && (coun < 35) && (counter > 2) && (flag) ) {
             flag = false;
             for (int i = 0; i < 81; i++) {
                 if (dots[i][0] == 0) {
