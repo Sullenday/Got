@@ -29,6 +29,12 @@ public:
                     breath(i1, j1);
                     capture();
                     clean();
+                    freeland(i1, j1, 1, 0);
+                    freelandconquer(1);
+                    clean();
+                    freeland(i1, j1, 2, 0);
+                    freelandconquer(2);
+                    clean();
                 }
                 if (board[i1][j1] == 0) {
                     clean();
@@ -37,6 +43,9 @@ public:
                     clean();
                     freeland(i1, j1, 2, 0);
                     freelandconquer(2);
+                    clean();
+                    breath(i1, j1);
+                    capture();
                     clean();
                 }
             }
@@ -320,6 +329,7 @@ public:
         return count;
     }
 
+
     void game() {
         setlocale(LC_ALL, "Russian");
         cout << "Управление стрелками, чтобы сбросить поле нажмите R \n z - спасовать ход (2 паса подряд - ничья) \n У каждого игрока по 20 комней, но использовать их все не обязательно \n Счет очков идет по захваченным территория, отмеченым в конце номером игрока умноженым на -1";
@@ -404,9 +414,19 @@ public:
                         flag = false;
                     }
                 }
-                if ((board[i][j] == 0) || (board[i][j] == -whoturn) || !(flag)) {
+                if ((board[i][j] == 0) || (board[i][j] == -whoturn)) {
                     clean();
                     board[i][j] = whoturn;
+                    for (int i1 = 0; i1 < 9; i1++) {
+                        for (int j1 = 0; j1 < 9; j1++) {
+                            if ((board[i1][j1] == 1 || board[i1][j1] == 2) && ((i1 != i) || (j1 != j))) {
+                                clean();
+                                breath(i1, j1);
+                                capture();
+                                clean();
+                            }
+                        }
+                    }
                     breath(i, j);
                     flag = true;
                     for (int i = 0; i < 81; i++) {
@@ -417,16 +437,6 @@ public:
                     clean();
                     if (flag == true) {
                         board[i][j] = 0;
-                    }
-                    for (int i1 = 0; i1 < 9; i1++) {
-                        for (int j1 = 0; j1 < 9; j1++) {
-                            if (board[i1][j1] == 1 || board[i1][j1] == 2) {
-                                clean();
-                                breath(i1, j1);
-                                capture();
-                                clean();
-                            }
-                        }
                     }
                     system("cls");
                     for (int i1 = 0; i1 < 9; i1++) {
