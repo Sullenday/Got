@@ -33,10 +33,10 @@ public:
                 if (board[i1][j1] == 0) {
                     clean();
                     freeland(i1, j1, 1, 0);
-                    freelandconquer();
+                    freelandconquer(1);
                     clean();
                     freeland(i1, j1, 2, 0);
-                    freelandconquer();
+                    freelandconquer(2);
                     clean();
                 }
             }
@@ -151,7 +151,7 @@ public:
                 oppos = 1;
             }
             for (int i = 0; i < coun; i++) {
-                board[dots[i][0]][dots[i][1]] = -oppos;
+                board[dots[i][0]][dots[i][1]] = 0;
             }
             clean();
         }
@@ -177,7 +177,7 @@ public:
             dots[coun][1] = j;
             coun++;
             if (i != 0) {
-                if ((board[i - 1][j] == 0) || (board[i - 1][j] == -board[i][j])) {
+                if ((board[i - 1][j] == 0) || (board[i - 1][j] == -whoturn)) {
                     freeland(i - 1, j, whoturn, coun2);
                 }
                 else if (board[i - 1][j] == whoturn) {
@@ -187,7 +187,7 @@ public:
                 }
             }
             if (i != 8) {
-                if ((board[i + 1][j] == 0) || (board[i + 1][j] == -board[i][j])) {
+                if ((board[i + 1][j] == 0) || (board[i + 1][j] == -whoturn)) {
                     freeland(i + 1, j, whoturn, coun2);
                 }
                 else if (board[i + 1][j] == whoturn) {
@@ -197,7 +197,7 @@ public:
                 }
             }
             if (j != 0) {
-                if ((board[i][j - 1] == 0) || (board[i][j - 1] == -board[i][j])) {
+                if ((board[i][j - 1] == 0) || (board[i][j - 1] == -whoturn)) {
                     freeland(i, j - 1, whoturn, coun2);
                 }
                 else if (board[i][j - 1] == whoturn) {
@@ -207,7 +207,7 @@ public:
                 }
             }
             if (j != 8) {
-                if ((board[i][j + 1] == 0) || (board[i][j + 1] == -board[i][j])) {
+                if ((board[i][j + 1] == 0) || (board[i][j + 1] == -whoturn)) {
                     freeland(i, j + 1, whoturn, coun2);
                 }
                 else if (board[i][j + 1] == whoturn) {
@@ -219,7 +219,7 @@ public:
         }
     }
 
-    void freelandconquer() {
+    void freelandconquer(int who) {
         int counter = 0;
         bool flag = true;
         for (int i = 0; i < 81; i++) {
@@ -228,8 +228,10 @@ public:
             }
         }
         for (int i = 1; i < 81; i++) {
-            if ((life[i][0] != -1) && (board[life[i][0]][life[i][1]] != board[life[0][0]][life[0][1]])) {
-                flag = false;
+            if ((life[i][0] != -1) && (life[i][1] != -1)) {
+                if (board[life[i][0]][life[i][1]] != who) {
+                    flag = false;
+                }
             }
         }
         if ((counter >= coun / 3) && (coun < 35) && (flag)) {
@@ -392,15 +394,24 @@ public:
             }
             else {
                 pas = 0;
-                if ((board[i][j] == 0) || (board[i][j] == -whoturn)) {
+                breath(i, j);
+                bool flag = true;
+                for (int i = 0; i < 81; i++) {
+                    if ((life[i][0] != -1) && (life[i][1] != -1)) {
+                        flag = false;
+                    }
+                }
+                if ((board[i][j] == 0) || (board[i][j] == -whoturn) || !(flag)) {
+                    clean();
                     board[i][j] = whoturn;
                     breath(i, j);
-                    bool flag = true;
+                    flag = true;
                     for (int i = 0; i < 81; i++) {
                         if ((life[i][0] != -1) && (life[i][1] != -1)) {
                             flag = false;
                         }
                     }
+                    clean();
                     if (flag == true) {
                         board[i][j] = 0;
                     }
