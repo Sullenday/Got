@@ -24,10 +24,7 @@ public:
         system("cls");
         for (int i1 = 0; i1 < 9; i1++) {
             for (int j1 = 0; j1 < 9; j1++) {
-                if (board[i1][j1] == 1 || board[i1][j1] == 2) {
-                    clean();
-                    breath(i1, j1);
-                    capture();
+                if (board[i1][j1] == 0) {
                     clean();
                     freeland(i1, j1, 1, 0);
                     freelandconquer(1);
@@ -36,13 +33,11 @@ public:
                     freelandconquer(2);
                     clean();
                 }
-                if (board[i1][j1] == 0) {
-                    clean();
-                    freeland(i1, j1, 1, 0);
-                    freelandconquer(1);
-                    clean();
-                    freeland(i1, j1, 2, 0);
-                    freelandconquer(2);
+            }
+        }
+        for (int i1 = 0; i1 < 9; i1++) {
+            for (int j1 = 0; j1 < 9; j1++) {
+                if (board[i1][j1] == 1 || board[i1][j1] == 2) {
                     clean();
                     breath(i1, j1);
                     capture();
@@ -254,6 +249,7 @@ public:
         }
         return true;
     }
+
     void freelandconquer(int who) {
         int counter = 0;
         bool flag = true;
@@ -272,72 +268,9 @@ public:
         if ((coun == 1) && ((dots[0][0] == 0) && (dots[0][1] == 0) || (dots[0][0] == 0) && (dots[0][1] == 8) || (dots[0][0] == 8) && (dots[0][1] == 0) || (dots[0][0] == 8) && (dots[0][1] == 8))) {
             counter = 3;
         }
-        if ((counter >= coun / 3) && (coun < 35) && (counter > 2) && (flag) && connection()) {
-            flag = false;
-            for (int i = 0; i < 81; i++) {
-                if (dots[i][0] == 0) {
-                    flag = true;
-                }
-            }
-            for (int i = 0; i < 81; i++) {
-                if ((life[i][0] == 0) || (life[i][1] == 0) || (life[i][1] == 8)) {
-                    flag = false;
-                }
-            }
-            if (!flag) {
-                for (int i = 0; i < 81; i++) {
-                    if (dots[i][0] == 8) {
-                        flag = true;
-                    }
-                }
-                for (int i = 0; i < 81; i++) {
-                    if ((life[i][0] == 8) || (life[i][1] == 0) || (life[i][1] == 8)) {
-                        flag = false;
-                    }
-                }
-                if (!flag) {
-                    for (int i = 0; i < 81; i++) {
-                        if (dots[i][1] == 0) {
-                            flag = true;
-                        }
-                    }
-                    for (int i = 0; i < 81; i++) {
-                        if ((life[i][0] == 8) || (life[i][1] == 0) || (life[i][0] == 0)) {
-                            flag = false;
-                        }
-                    }
-                    if (!flag) {
-                        for (int i = 0; i < 81; i++) {
-                            if (dots[i][1] == 8) {
-                                flag = true;
-                            }
-                        }
-                        for (int i = 0; i < 81; i++) {
-                            if ((life[i][0] == 8) || (life[i][1] == 8) || (life[i][0] == 0)) {
-                                flag = false;
-                            }
-                        }
-                        if (!flag) {
-                            for (int i = 0; i < counter - 1; i++) {
-                                int schet = 1;
-                                for (int j = i + 1; j < counter; j++) {
-                                    if ((life[i][0] == life[j][0]) && (life[i][1] == life[j][1])) {
-                                        schet += 1;
-                                    }
-                                }
-                                if (schet > 2) {
-                                    flag = true;
-                                }
-                                schet = 1;
-                            }
-                            if (!flag) {
-                                for (int i = 0; i < coun; i++) {
-                                    board[dots[i][0]][dots[i][1]] = -board[life[0][0]][life[0][1]];
-                                }
-                            }
-                        }
-                    }
-                }
+        if ((coun < 35) && (connection()) && (flag)) {
+            for (int i = 0; i < coun; i++) {
+                board[dots[i][0]][dots[i][1]] = -board[life[0][0]][life[0][1]];
             }
         }
         clean();
