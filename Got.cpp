@@ -250,7 +250,6 @@ public:
             }
         }
         if (solocon > 2) {
-            cout << "polka";
             return false;
         }
         return true;
@@ -273,7 +272,6 @@ public:
         if ((coun == 1) && ((dots[0][0] == 0) && (dots[0][1] == 0) || (dots[0][0] == 0) && (dots[0][1] == 8) || (dots[0][0] == 8) && (dots[0][1] == 0) || (dots[0][0] == 8) && (dots[0][1] == 8))) {
             counter = 3;
         }
-        cout << connection() << endl;;
         if ((counter >= coun / 3) && (coun < 35) && (counter > 2) && (flag) && connection()) {
             flag = false;
             for (int i = 0; i < 81; i++) {
@@ -436,12 +434,6 @@ public:
             else {
                 pas = 0;
                 breath(i, j);
-                bool flag = true;
-                for (int i = 0; i < 81; i++) {
-                    if ((life[i][0] != -1) && (life[i][1] != -1)) {
-                        flag = false;
-                    }
-                }
                 if ((board[i][j] == 0) || (board[i][j] == -whoturn)) {
                     clean();
                     board[i][j] = whoturn;
@@ -456,7 +448,7 @@ public:
                         }
                     }
                     breath(i, j);
-                    flag = true;
+                    bool flag = true;
                     for (int i = 0; i < 81; i++) {
                         if ((life[i][0] != -1) && (life[i][1] != -1)) {
                             flag = false;
