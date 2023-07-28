@@ -166,7 +166,6 @@ public:
         }
     }
 
-
     void freeland(int i, int j, int whoturn, int coun2) {
         bool flag = true;
         for (int i1 = 0; i1 < 81; i1++) {
@@ -186,7 +185,7 @@ public:
             dots[coun][1] = j;
             coun++;
             if (i != 0) {
-                if ((board[i - 1][j] == 0) || (board[i - 1][j] == -whoturn)) {
+                if (board[i - 1][j] != whoturn) {
                     freeland(i - 1, j, whoturn, coun2);
                 }
                 else if (board[i - 1][j] == whoturn) {
@@ -196,7 +195,7 @@ public:
                 }
             }
             if (i != 8) {
-                if ((board[i + 1][j] == 0) || (board[i + 1][j] == -whoturn)) {
+                if (board[i + 1][j] != whoturn) {
                     freeland(i + 1, j, whoturn, coun2);
                 }
                 else if (board[i + 1][j] == whoturn) {
@@ -206,7 +205,7 @@ public:
                 }
             }
             if (j != 0) {
-                if ((board[i][j - 1] == 0) || (board[i][j - 1] == -whoturn)) {
+                if (board[i][j - 1] != whoturn) {
                     freeland(i, j - 1, whoturn, coun2);
                 }
                 else if (board[i][j - 1] == whoturn) {
@@ -216,7 +215,7 @@ public:
                 }
             }
             if (j != 8) {
-                if ((board[i][j + 1] == 0) || (board[i][j + 1] == -whoturn)) {
+                if (board[i][j + 1] != whoturn) {
                     freeland(i, j + 1, whoturn, coun2);
                 }
                 else if (board[i][j + 1] == whoturn) {
@@ -227,7 +226,35 @@ public:
             }
         }
     }
-
+    
+    bool connection() {
+        int con, solocon = 0;
+        for (int i = 0; i < 81; i++) {
+            if (life[i][0] != -1) {
+                con = 0;
+                for (int j = 0; j < 81; j++) {
+                    for (int i1 = -1; i1 < 2; i1++) {
+                        for (int j1 = -1; j1 < 2; j1++) {
+                                if ((life[i][0] + i1 == life[j][0]) && (life[i][1] + j1 == life[j][1])) {
+                                    con++;
+                            }
+                        }
+                    }
+                }
+                if (con == 0) {     
+                    return false;
+                }
+                else if (con == 1) {
+                    solocon++;
+                }
+            }
+        }
+        if (solocon > 2) {
+            cout << "polka";
+            return false;
+        }
+        return true;
+    }
     void freelandconquer(int who) {
         int counter = 0;
         bool flag = true;
@@ -236,7 +263,7 @@ public:
                 counter++;
             }
         }
-        for (int i = 1; i < 81; i++) {
+        for (int i = 0; i < 81; i++) {
             if ((life[i][0] != -1) && (life[i][1] != -1)) {
                 if (board[life[i][0]][life[i][1]] != who) {
                     flag = false;
@@ -246,7 +273,8 @@ public:
         if ((coun == 1) && ((dots[0][0] == 0) && (dots[0][1] == 0) || (dots[0][0] == 0) && (dots[0][1] == 8) || (dots[0][0] == 8) && (dots[0][1] == 0) || (dots[0][0] == 8) && (dots[0][1] == 8))) {
             counter = 3;
         }
-        if ((counter >= coun / 3) && (coun < 35) && (counter > 2) && (flag) ) {
+        cout << connection() << endl;;
+        if ((counter >= coun / 3) && (coun < 35) && (counter > 2) && (flag) && connection()) {
             flag = false;
             for (int i = 0; i < 81; i++) {
                 if (dots[i][0] == 0) {
