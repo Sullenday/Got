@@ -1,8 +1,8 @@
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <stdlib.h>
 #include <conio.h>
 #include <Windows.h>
-#include <vector>
 using namespace std;
 
 class Logic {
@@ -290,18 +290,32 @@ public:
 
 
     void game() {
+        sf::RenderWindow window(sf::VideoMode(621, 621), "Go");
+        sf::Texture texture;
+        sf::CircleShape shape(20.f);
+        sf::RectangleShape rectangle(sf::Vector2f(1000.f, 1000.f));
+        rectangle.setFillColor(sf::Color(224, 224, 244));
+        window.draw(rectangle);
+        texture.loadFromFile("image.png", sf::IntRect(20, 20, 0, 0));
+        sf::Sprite sprite;
+        sprite.setTexture(texture);
+        sprite.setPosition(20.f, 20.f);
+        window.draw(sprite);
+        window.display();
         setlocale(LC_ALL, "Russian");
-        cout << "Управление стрелками, чтобы сбросить поле нажмите R \n z - спасовать ход (2 паса подряд - ничья) \n У каждого игрока по 20 комней, но использовать их все не обязательно \n Счет очков идет по захваченным территория и пленным, отмеченым в конце номером игрока умноженым на -1";
+        cout << "Управление стрелками, чтобы сбросить поле нажмите R \n z - спасовать ход (2 паса подряд - ничья) \n У каждого игрока по 20 комней, но использовать их все не обязательно \n Счет очков идет по захваченным территория и пленным, отмеченым в конце номером игрока умноженым на -1 \n esc чтобы выключить \n Удачи!";
         HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(handle, FOREGROUND_RED);
         int key, stone1 = 20, stone2 = 20, pas = 0, oppos = 1, whoturn = 2, i = 4, j = 4;
-        while (true) {
+        while (window.isOpen()) {
             key = _getch();
             cout << "Нажимайте кнопки, чтобы выбрать ячейки";
-            while ((key != 13) && (key != 122) && (key != 239)) {
+            while ((key != 13) && (key != 122) && (key != 239) && (key != 27)) {
                 system("cls");
                 switch (key)
                 {
+                case 27: window.close();
+                    break;
                 case 75: if (j != 0) {
                     j--;
                 }
@@ -333,10 +347,33 @@ public:
                     stone2 = 20;
                     break;
                 }
-
+                window.clear();
+                window.draw(rectangle);
+                window.draw(sprite);
                 for (int i1 = 0; i1 < 9; i1++) {
                     for (int j1 = 0; j1 < 9; j1++) {
+                        if (board[i1][j1] == 1) {
+                            float i2, j2;
+                            shape.setFillColor(sf::Color::White);
+                            i2 = 10 + 70 * i1;
+                            j2 = 10 + 70 * j1;
+                            shape.setPosition(j2, i2);
+                            window.draw(shape);
+                        }
+                        else if (board[i1][j1] == 2) {
+                            float i2, j2;
+                            shape.setFillColor(sf::Color::Black);
+                            i2 = 10 + 70 * i1;
+                            j2 = 10 + 70 * j1;
+                            shape.setPosition(j2, i2);
+                            window.draw(shape);
+                        }
                         if ((i1 == i) && (j1 == j)) {
+                            shape.setRadius(10.f);
+                            shape.setFillColor(sf::Color::Green);
+                            shape.setPosition(20 + 70 * j1, 20 + 70 * i1);
+                            window.draw(shape);
+                            shape.setRadius(20.f);
                             SetConsoleTextAttribute(handle, FOREGROUND_GREEN);
                             cout << board[i1][j1] << " ";
                             SetConsoleTextAttribute(handle, FOREGROUND_RED);
@@ -345,6 +382,7 @@ public:
                     }
                     cout << endl;
                 }
+                window.display();
                 cout << "-------------------------------------------------------\n Ходит игрок номер " << whoturn;
                 key = _getch();
             }
@@ -363,6 +401,10 @@ public:
                     stone1 = 20;
                     stone2 = 20;
                 }
+            }
+            else if (key == 27) {
+                
+                break;
             }
             else {
                 pas = 0;
@@ -392,12 +434,32 @@ public:
                         board[i][j] = 0;
                     }
                     system("cls");
+                    window.clear();
+                    window.draw(rectangle);
+                    window.draw(sprite);
                     for (int i1 = 0; i1 < 9; i1++) {
                         for (int j1 = 0; j1 < 9; j1++) {
+                            if (board[i1][j1] == 1) {
+                                float i2, j2;
+                                shape.setFillColor(sf::Color::White);
+                                i2 = 10 + 70 * i1;
+                                j2 = 10 + 70 * j1;
+                                shape.setPosition(j2, i2);
+                                window.draw(shape);
+                            }
+                            else if (board[i1][j1] == 2) {
+                                float i2, j2;
+                                shape.setFillColor(sf::Color::Black);
+                                i2 = 10 + 70 * i1;
+                                j2 = 10 + 70 * j1;
+                                shape.setPosition(j2, i2);
+                                window.draw(shape);
+                            }
                             cout << board[i1][j1] << " ";
                         }
                         cout << endl;
                     }
+                    window.display();
                     key = _getch();
                     switch (whoturn) {
                     case 1: if (board[i][j] != 0) {
