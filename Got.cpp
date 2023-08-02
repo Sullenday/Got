@@ -12,14 +12,6 @@ public:
     int board[9][9];
     int coun = 0;
 
-    void init() {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                board[i][j] = 0;
-            }
-        }
-    }
-
     void isEnd() {
         system("cls");
         for (int i1 = 0; i1 < 9; i1++) {
@@ -52,7 +44,7 @@ public:
             cout << endl;
         }
         cout << "Игра окончена\n";
-        cout << "Счет первого игрока" << score(1) << endl << "Счет второго игрока " << score(2) << endl;
+        cout << "Счет первого игрока " << score(1) << endl << "Счет второго игрока " << score(2) << endl;
         if (score(1) > score(2)) {
             cout << "Побеждает первый игрок\n";
         }
@@ -63,12 +55,6 @@ public:
             cout << "Ничья!!!\n";
         }
         cout << "Для рестарта нажмите R\n";
-        int key = _getch();
-        while ((key != 114) && (key != 170)) {
-            key = _getch();
-            cout << "Для рестарта нажмите R\n";
-        }
-        reset();
     }
 
     void reset() {
@@ -362,7 +348,7 @@ public:
                         }
                         else if (board[i1][j1] == 2) {
                             float i2, j2;
-                            shape.setFillColor(sf::Color::Black);
+                            shape.setFillColor(sf::Color::Black);   
                             i2 = 10 + 70 * i1;
                             j2 = 10 + 70 * j1;
                             shape.setPosition(j2, i2);
@@ -398,35 +384,80 @@ public:
                 }
                 if (pas == 2) {
                     isEnd();
+                    window.clear();
+                    window.draw(rectangle);
+                    window.draw(sprite);
+                    for (int i1 = 0; i1 < 9; i1++) {
+                        for (int j1 = 0; j1 < 9; j1++) {
+                            if (board[i1][j1] == 1) {
+                                float i2, j2;
+                                shape.setFillColor(sf::Color::White);
+                                i2 = 10 + 70 * i1;
+                                j2 = 10 + 70 * j1;
+                                shape.setPosition(j2, i2);
+                                window.draw(shape);
+                            }
+                            else if (board[i1][j1] == 2) {
+                                float i2, j2;
+                                shape.setFillColor(sf::Color::Black);
+                                i2 = 10 + 70 * i1;
+                                j2 = 10 + 70 * j1;
+                                shape.setPosition(j2, i2);
+                                window.draw(shape);
+                            }
+                        }
+                    }
+                    window.display();
+                    key = _getch();
+                    while ((key != 114) && (key != 170)) {
+                        key = _getch();
+                        cout << "Для рестарта нажмите R\n";
+                    }
+                    reset();
                     stone1 = 20;
                     stone2 = 20;
                 }
+                else {
+                    system("cls");
+                    for (int i1 = 0; i1 < 9; i1++) {
+                        for (int j1 = 0; j1 < 9; j1++) {
+                            if ((i1 == i) && (j1 == j)) {
+                                SetConsoleTextAttribute(handle, FOREGROUND_GREEN);
+                                cout << board[i1][j1] << " ";
+                                SetConsoleTextAttribute(handle, FOREGROUND_RED);
+                            }
+                            else { cout << board[i1][j1] << " "; }
+                        }
+                        cout << endl;
+                    }
+                    cout << "-------------------------------------------------------\n Ходит игрок номер " << whoturn;
+                }
             }
             else if (key == 27) {
-                
                 break;
             }
             else {
                 pas = 0;
-                breath(i, j);
                 if ((board[i][j] == 0) || (board[i][j] == -whoturn)) {
                     clean();
                     board[i][j] = whoturn;
-                    for (int i1 = 0; i1 < 9; i1++) {
-                        for (int j1 = 0; j1 < 9; j1++) {
-                            if ((board[i1][j1] == 1 || board[i1][j1] == 2) && ((i1 != i) || (j1 != j))) {
-                                clean();
-                                breath(i1, j1);
-                                capture();
-                                clean();
-                            }
-                        }
-                    }
-                    breath(i, j);
                     bool flag = true;
+                    breath(i, j);
                     for (int i = 0; i < 81; i++) {
                         if ((life[i][0] != -1) && (life[i][1] != -1)) {
                             flag = false;
+                        }
+                    }
+                    if (!flag) {
+                        for (int i1 = 0; i1 < 9; i1++) {
+                            for (int j1 = 0; j1 < 9; j1++) {
+                                if ((board[i1][j1] == 1 || board[i1][j1] == 2) && ((i1 != i) || (j1 != j))) {
+                                    clean();
+                                    breath(i1, j1);
+                                    capture();
+                                    clean();
+                                }
+                            }
                         }
                     }
                     clean();
@@ -483,6 +514,36 @@ public:
                     }
                     if ((stone1 <= 0) && (stone2 <= 0)) {
                         isEnd();
+                        window.clear();
+                        window.draw(rectangle);
+                        window.draw(sprite);
+                        for (int i1 = 0; i1 < 9; i1++) {
+                            for (int j1 = 0; j1 < 9; j1++) {
+                                if (board[i1][j1] == 1) {
+                                    float i2, j2;
+                                    shape.setFillColor(sf::Color::White);
+                                    i2 = 10 + 70 * i1;
+                                    j2 = 10 + 70 * j1;
+                                    shape.setPosition(j2, i2);
+                                    window.draw(shape);
+                                }
+                                else if (board[i1][j1] == 2) {
+                                    float i2, j2;
+                                    shape.setFillColor(sf::Color::Black);
+                                    i2 = 10 + 70 * i1;
+                                    j2 = 10 + 70 * j1;
+                                    shape.setPosition(j2, i2);
+                                    window.draw(shape);
+                                }
+                            }
+                        }
+                        window.display();
+                        key = _getch();
+                        while ((key != 114) && (key != 170)) {
+                            key = _getch();
+                            cout << "Для рестарта нажмите R\n";
+                        }
+                        reset();
                         stone1 = 20;
                         stone2 = 20;
                     }
@@ -498,6 +559,6 @@ public:
 int main()
 {
     Logic Go;
-    Go.init();
+    Go.reset();
     Go.game();
 }
