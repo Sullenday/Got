@@ -1,12 +1,20 @@
 ﻿  Got.cpp
-C:\Users\denis\source\repos\Got\Got.cpp(358,37): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-C:\Users\denis\source\repos\Got\Got.cpp(359,37): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-C:\Users\denis\source\repos\Got\Got.cpp(366,37): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-C:\Users\denis\source\repos\Got\Got.cpp(367,37): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-C:\Users\denis\source\repos\Got\Got.cpp(374,64): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\denis\source\repos\Got\Got.cpp(374,50): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\denis\source\repos\Got\Got.cpp(445,41): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-C:\Users\denis\source\repos\Got\Got.cpp(446,41): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-C:\Users\denis\source\repos\Got\Got.cpp(453,41): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-C:\Users\denis\source\repos\Got\Got.cpp(454,41): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(337,37): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(338,37): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(345,37): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(346,37): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(353,64): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(353,50): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(388,41): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(389,41): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(396,41): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(397,41): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(469,41): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(470,41): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(477,41): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(478,41): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(518,45): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(519,45): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(526,45): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\denis\source\repos\Got\Got.cpp(527,45): warning C4244: =: преобразование "int" в "float", возможна потеря данных
   Got.vcxproj -> C:\Users\denis\source\repos\Got\x64\Debug\Got.exe

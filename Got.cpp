@@ -16,7 +16,6 @@ public:
         system("cls");
         for (int i1 = 0; i1 < 9; i1++) {
             for (int j1 = 0; j1 < 9; j1++) {
-                if (board[i1][j1] == 0) {
                     clean();
                     freeland(i1, j1, 1, 0);
                     freelandconquer(1);
@@ -24,7 +23,6 @@ public:
                     freeland(i1, j1, 2, 0);
                     freelandconquer(2);
                     clean();
-                }
             }
         }
         for (int i1 = 0; i1 < 9; i1++) {
@@ -155,16 +153,11 @@ public:
             }
         }
         if (flag == true) {
-            int oppos;
-            if (whoturn == 1) {
-                oppos = 2;
+            if (board[i][j] != whoturn) {
+                dots[coun][0] = i;
+                dots[coun][1] = j;
+                coun++;
             }
-            else {
-                oppos = 1;
-            }
-            dots[coun][0] = i;
-            dots[coun][1] = j;
-            coun++;
             if (i != 0) {
                 if (board[i - 1][j] != whoturn) {
                     freeland(i - 1, j, whoturn, coun2);
@@ -230,7 +223,7 @@ public:
                 }
             }
         }
-        if (solocon > 2) {
+        if (solocon > 4) {
             return false;
         }
         return true;
@@ -384,7 +377,7 @@ public:
                 }
                 if (pas == 2) {
                     isEnd();
-                    window.clear();
+                    window.clear(); 
                     window.draw(rectangle);
                     window.draw(sprite);
                     for (int i1 = 0; i1 < 9; i1++) {
