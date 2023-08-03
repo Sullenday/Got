@@ -541,7 +541,6 @@ public:
                         cout << endl;
                     }
                     window.display();
-                    key = _getch();
                     switch (whoturn) {
                     case 1: if (board[i][j] != 0) {
                         stone1--;
