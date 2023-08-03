@@ -329,6 +329,20 @@ public:
                 window.clear();
                 window.draw(rectangle);
                 window.draw(sprite);
+                if (whoturn == 1) {
+                    shape.setRadius(10.f);
+                    shape.setFillColor(sf::Color::White);
+                    shape.setPosition(0, 0);
+                    window.draw(shape);
+                    shape.setRadius(20.f);
+                }
+                else {
+                    shape.setRadius(10.f);
+                    shape.setFillColor(sf::Color::Black);
+                    shape.setPosition(0, 0);
+                    window.draw(shape);
+                    shape.setRadius(20.f);
+                }
                 for (int i1 = 0; i1 < 9; i1++) {
                     for (int j1 = 0; j1 < 9; j1++) {
                         if (board[i1][j1] == 1) {
@@ -380,6 +394,20 @@ public:
                     window.clear(); 
                     window.draw(rectangle);
                     window.draw(sprite);
+                    if (whoturn == 1) {
+                        shape.setRadius(10.f);
+                        shape.setFillColor(sf::Color::White);
+                        shape.setPosition(0, 0);
+                        window.draw(shape);
+                        shape.setRadius(20.f);
+                    }
+                    else {
+                        shape.setRadius(10.f);
+                        shape.setFillColor(sf::Color::Black);
+                        shape.setPosition(0, 0);
+                        window.draw(shape);
+                        shape.setRadius(20.f);
+                    }
                     for (int i1 = 0; i1 < 9; i1++) {
                         for (int j1 = 0; j1 < 9; j1++) {
                             if (board[i1][j1] == 1) {
@@ -412,6 +440,21 @@ public:
                 }
                 else {
                     system("cls");
+                    if (whoturn == 1) {
+                        shape.setRadius(10.f);
+                        shape.setFillColor(sf::Color::White);
+                        shape.setPosition(0, 0);
+                        window.draw(shape);
+                        shape.setRadius(20.f);
+                    }
+                    else {
+                        shape.setRadius(10.f);
+                        shape.setFillColor(sf::Color::Black);
+                        shape.setPosition(0, 0);
+                        window.draw(shape);
+                        shape.setRadius(20.f);
+                    }
+                    window.display();
                     for (int i1 = 0; i1 < 9; i1++) {
                         for (int j1 = 0; j1 < 9; j1++) {
                             if ((i1 == i) && (j1 == j)) {
@@ -461,6 +504,20 @@ public:
                     window.clear();
                     window.draw(rectangle);
                     window.draw(sprite);
+                    if (whoturn == 1) {
+                        shape.setRadius(10.f);
+                        shape.setFillColor(sf::Color::White);
+                        shape.setPosition(0, 0);
+                        window.draw(shape);
+                        shape.setRadius(20.f);
+                    }
+                    else {
+                        shape.setRadius(10.f);
+                        shape.setFillColor(sf::Color::Black);
+                        shape.setPosition(0, 0);
+                        window.draw(shape);
+                        shape.setRadius(20.f);
+                    }
                     for (int i1 = 0; i1 < 9; i1++) {
                         for (int j1 = 0; j1 < 9; j1++) {
                             if (board[i1][j1] == 1) {
@@ -510,6 +567,20 @@ public:
                         window.clear();
                         window.draw(rectangle);
                         window.draw(sprite);
+                        if (whoturn == 1) {
+                            shape.setRadius(10.f);
+                            shape.setFillColor(sf::Color::White);
+                            shape.setPosition(0, 0);
+                            window.draw(shape);
+                            shape.setRadius(20.f);
+                        }
+                        else {
+                            shape.setRadius(10.f);
+                            shape.setFillColor(sf::Color::Black);
+                            shape.setPosition(0, 0);
+                            window.draw(shape);
+                            shape.setRadius(20.f);
+                        }
                         for (int i1 = 0; i1 < 9; i1++) {
                             for (int j1 = 0; j1 < 9; j1++) {
                                 if (board[i1][j1] == 1) {
