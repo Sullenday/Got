@@ -478,25 +478,23 @@ public:
                     clean();
                     board[i][j] = whoturn;
                     bool flag = true;
+                    for (int i1 = 0; i1 < 9; i1++) {
+                        for (int j1 = 0; j1 < 9; j1++) {
+                            if ((board[i1][j1] == 1 || board[i1][j1] == 2) && ((i1 != i) || (j1 != j))) {
+                                clean();
+                                breath(i1, j1);
+                                capture();
+                                clean();
+                            }
+                        }
+                    }
+                    clean();
                     breath(i, j);
                     for (int i = 0; i < 81; i++) {
                         if ((life[i][0] != -1) && (life[i][1] != -1)) {
                             flag = false;
                         }
                     }
-                    if (!flag) {
-                        for (int i1 = 0; i1 < 9; i1++) {
-                            for (int j1 = 0; j1 < 9; j1++) {
-                                if ((board[i1][j1] == 1 || board[i1][j1] == 2) && ((i1 != i) || (j1 != j))) {
-                                    clean();
-                                    breath(i1, j1);
-                                    capture();
-                                    clean();
-                                }
-                            }
-                        }
-                    }
-                    clean();
                     if (flag == true) {
                         board[i][j] = 0;
                     }
