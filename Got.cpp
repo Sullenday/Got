@@ -7,14 +7,14 @@ using namespace std;
 
 class Logic {
 public:
-    int life[81][2];
-    int dots[81][2];
-    int board[9][9];
-    int coun = 0;
+    int life[81][2];  //Вспомогательный двумерный массив
+    int dots[81][2];  //Вспомогательный двумерный массив
+    int board[9][9];  //Игровое поле
+    int coun = 0;  //Вспомогательный каунтер
 
-    void isEnd() {
+    void isEnd() {  // Окончание игры
         system("cls");
-        for (int i1 = 0; i1 < 9; i1++) {
+        for (int i1 = 0; i1 < 9; i1++) {    //Захвати территории
             for (int j1 = 0; j1 < 9; j1++) {
                     clean();
                     freeland(i1, j1, 1, 0);
@@ -25,7 +25,7 @@ public:
                     clean();
             }
         }
-        for (int i1 = 0; i1 < 9; i1++) {
+        for (int i1 = 0; i1 < 9; i1++) { //Финальный захват камнеей
             for (int j1 = 0; j1 < 9; j1++) {
                 if (board[i1][j1] == 1 || board[i1][j1] == 2) {
                     clean();
@@ -35,15 +35,15 @@ public:
                 }
             }
         }
-        for (int i1 = 0; i1 < 9; i1++) {
+        for (int i1 = 0; i1 < 9; i1++) { //Финальныое выведение поля в консоль
             for (int j1 = 0; j1 < 9; j1++) {
                 cout << board[i1][j1] << " ";
             }
             cout << endl;
         }
         cout << "Игра окончена\n";
-        cout << "Счет первого игрока " << score(1) << endl << "Счет второго игрока " << score(2) << endl;
-        if (score(1) > score(2)) {
+        cout << "Счет первого игрока " << score(1) << endl << "Счет второго игрока " << score(2) << endl; //Выведение финального счета игроков
+        if (score(1) > score(2)) { //Выведение кто победил
             cout << "Побеждает первый игрок\n";
         }
         else if (score(2) > score(1)) {
@@ -55,7 +55,7 @@ public:
         cout << "Для рестарта нажмите R\n";
     }
 
-    void reset() {
+    void reset() {  //Очищение игрового поля
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 board[i][j] = 0;
@@ -63,7 +63,7 @@ public:
         }
     }
 
-    void clean() {
+    void clean() { //Очищение вспомогательных массивов и каунтера
         for (int i = 0; i < 81; i++) {
             for (int j = 0; j < 2; j++) {
                 life[i][j] = -1;
@@ -73,127 +73,120 @@ public:
         coun = 0;
     }
 
-    void breath(int i, int j) {
+    void breath(int i, int j) { //Сбор кластера точек одного игрока и точек дыхание этого кластера
         bool flag = true;
-        for (int i1 = 0; i1 < 81; i1++) {
+        for (int i1 = 0; i1 < 81; i1++) { //Проверка на наличие точки точки с данными координатами в массиве кластера 
             if ((i == dots[i1][0]) && (j == dots[i1][1])) {
                 flag = false;
             }
         }
         if (flag == true) {
-            dots[coun][0] = i;
+            dots[coun][0] = i; //Добовление точки в массив кластера
             dots[coun][1] = j;
             coun++;
-            if (i != 0) {
-                if ((board[i - 1][j] == 0) || (board[i - 1][j] == -board[i][j])) {
-                    life[coun][0] = i - 1;
+            if (i != 0) {  //Проверка верхнего края поля
+                if ((board[i - 1][j] == 0) || (board[i - 1][j] == -board[i][j])) { //Проверка является ли соседняя точка точкой дыхания
+                    life[coun][0] = i - 1; //Добавление в массив точке дыхания
                     life[coun][1] = j;
                 }
-                else if (board[i - 1][j] == board[i][j]) {
+                else if (board[i - 1][j] == board[i][j]) { //Если точка не является точкой дыхания проверка является ли точкой кластера
                     breath(i - 1, j);
                 }
             }
-            if (i != 8) {
-                if ((board[i + 1][j] == 0) || (board[i + 1][j] == -board[i][j])) {
-                    life[coun][0] = i + 1;
+            if (i != 8) { //Проверка нижнего края поля
+                if ((board[i + 1][j] == 0) || (board[i + 1][j] == -board[i][j])) { //Проверка является ли соседняя точка точкой дыхания
+                    life[coun][0] = i + 1;//Добавление в массив точке дыхания
                     life[coun][1] = j;
                 }
-                else if (board[i + 1][j] == board[i][j]) {
+                else if (board[i + 1][j] == board[i][j]) { //Если точка не является точкой дыхания проверка является ли точкой кластера
                     breath(i + 1, j);
                 }
             }
-            if (j != 0) {
-                if ((board[i][j - 1] == 0) || (board[i][j - 1] == -board[i][j])) {
-                    life[coun][0] = i;
+            if (j != 0) { //Проверка левого края поля
+                if ((board[i][j - 1] == 0) || (board[i][j - 1] == -board[i][j])) { //Проверка является ли соседняя точка точкой дыхания
+                    life[coun][0] = i; //Добавление в массив точке дыхания
                     life[coun][1] = j - 1;
                 }
-                else if (board[i][j - 1] == board[i][j]) {
+                else if (board[i][j - 1] == board[i][j]) { //Если точка не является точкой дыхания проверка является ли точкой кластера
                     breath(i, j - 1);
                 }
             }
-            if (j != 8) {
-                if ((board[i][j + 1] == 0) || (board[i][j + 1] == -board[i][j])) {
-                    life[coun][0] = i;
+            if (j != 8) { //Проверка правого края поля
+                if ((board[i][j + 1] == 0) || (board[i][j + 1] == -board[i][j])) { //Проверка является ли соседняя точка точкой дыхания
+                    life[coun][0] = i; //Добавление в массив точке дыхания
                     life[coun][1] = j + 1;
                 }
-                else if (board[i][j + 1] == board[i][j]) {
+                else if (board[i][j + 1] == board[i][j]) { //Если точка не является точкой дыхания проверка является ли точкой кластера
                     breath(i, j + 1);
                 }
             }
         }
     }
 
-    void capture() {
+    void capture() { //Захват кластера точек если у него отсутствуют точки дыхания
         bool flag = true;
-        for (int i = 0; i < 81; i++) {
+        for (int i = 0; i < 81; i++) { //Провекра наличия точек дыхания
             if ((life[i][0] != -1) && (life[i][1] != -1)) {
                 flag = false;
             }
         }
         if (flag == true) {
-            int oppos;
-            if (board[dots[0][0]][dots[0][1]] == 1) {
-                oppos = 2;
-            }
-            else {
-                oppos = 1;
-            }
-            for (int i = 0; i < coun; i++) {
+            for (int i = 0; i < coun; i++) { //Захват, если точки дыхания отсутствуют
                 board[dots[i][0]][dots[i][1]] = 0;
             }
             clean();
         }
     }
 
-    void freeland(int i, int j, int whoturn, int coun2) {
+    void freeland(int i, int j, int whoturn, int coun2) { //Сбор кластера свободных территорий и точек окружающих его
         bool flag = true;
-        for (int i1 = 0; i1 < 81; i1++) {
+        for (int i1 = 0; i1 < 81; i1++) { //Проверка входит ли точка в массив кластера свободных территорий
             if ((i == dots[i1][0]) && (j == dots[i1][1])) {
                 flag = false;
             }
         }
         if (flag == true) {
             if (board[i][j] != whoturn) {
-                dots[coun][0] = i;
+                dots[coun][0] = i; //Добавление точки в массив кластера свободных точек
                 dots[coun][1] = j;
                 coun++;
             }
-            if (i != 0) {
-                if (board[i - 1][j] != whoturn) {
+            if (i != 0) { //Проверка верхнего края поля
+                if (board[i - 1][j] != whoturn) { //Проверка является ли точка точкой свободный территории
                     freeland(i - 1, j, whoturn, coun2);
                 }
-                else if (board[i - 1][j] == whoturn) {
-                    life[coun2][0] = i - 1;
+                else if (board[i - 1][j] == whoturn) { //Проверка является ли точка ограничивающей
+                    life[coun2][0] = i - 1; //Добавление в массив граничных точек
                     life[coun2][1] = j;
                     coun2++;
                 }
             }
-            if (i != 8) {
-                if (board[i + 1][j] != whoturn) {
+            if (i != 8) { //Проверка нижнего края поля
+                if (board[i + 1][j] != whoturn) { //Проверка является ли точка точкой свободный территории
                     freeland(i + 1, j, whoturn, coun2);
                 }
-                else if (board[i + 1][j] == whoturn) {
-                    life[coun2][0] = i + 1;
+                else if (board[i + 1][j] == whoturn) { //Проверка является ли точка ограничивающей
+                    life[coun2][0] = i + 1; //Добавление в массив граничных точек
                     life[coun2][1] = j;
                     coun2++;
                 }
             }
-            if (j != 0) {
-                if (board[i][j - 1] != whoturn) {
+            if (j != 0) { //Проверка левого края поля
+                if (board[i][j - 1] != whoturn) { //Проверка является ли точка точкой свободный территории
                     freeland(i, j - 1, whoturn, coun2);
                 }
-                else if (board[i][j - 1] == whoturn) {
-                    life[coun2][0] = i;
+                else if (board[i][j - 1] == whoturn) { //Проверка является ли точка ограничивающей
+                    life[coun2][0] = i; //Добавление в массив граничных точек
                     life[coun2][1] = j - 1;
                     coun2++;
                 }
             }
-            if (j != 8) {
-                if (board[i][j + 1] != whoturn) {
+            if (j != 8) { //Проверка правого края поля
+                if (board[i][j + 1] != whoturn) { //Проверка является ли точка точкой свободный территории
                     freeland(i, j + 1, whoturn, coun2);
                 }
-                else if (board[i][j + 1] == whoturn) {
-                    life[coun2][0] = i;
+                else if (board[i][j + 1] == whoturn) { //Проверка является ли точка ограничивающей
+                    life[coun2][0] = i; //Добавление в массив граничных точек
                     life[coun2][1] = j + 1;
                     coun2++;
                 }
@@ -202,20 +195,20 @@ public:
     }
     
     bool connection() {
-        int con, solocon = 0;
-        for (int i = 0; i < 81; i++) {
+        int con, solocon = 0; //Количество соединений у точки и количество точек с одним соединенмем
+        for (int i = 0; i < 81; i++) { 
             if (life[i][0] != -1) {
                 con = 0;
                 for (int j = 0; j < 81; j++) {
                     for (int i1 = -1; i1 < 2; i1++) {
                         for (int j1 = -1; j1 < 2; j1++) {
-                                if ((life[i][0] + i1 == life[j][0]) && (life[i][1] + j1 == life[j][1])) {
+                                if ((life[i][0] + i1 == life[j][0]) && (life[i][1] + j1 == life[j][1])) { //Проверка является ли точка содиненной с данной
                                     con++;
                             }
                         }
                     }
                 }
-                if (con == 0) {     
+                if (con == 0) { //Проверка количества соединений точки 
                     return false;
                 }
                 else if (con == 1) {
@@ -223,39 +216,30 @@ public:
                 }
             }
         }
-        if (solocon > 4) {
+        if (solocon > 4) { //Проверка количества точек с одним соединением
             return false;
         }
         return true;
     }
 
-    void freelandconquer(int who) {
-        int counter = 0;
+    void freelandconquer(int who) { //Захват свободных территорий занесенных в массив кластера
         bool flag = true;
         for (int i = 0; i < 81; i++) {
-            if (life[i][0] != -1) {
-                counter++;
-            }
-        }
-        for (int i = 0; i < 81; i++) {
             if ((life[i][0] != -1) && (life[i][1] != -1)) {
-                if (board[life[i][0]][life[i][1]] != who) {
+                if (board[life[i][0]][life[i][1]] != who) { //Проверка на однородность массива ограничивающих точек
                     flag = false;
                 }
             }
         }
-        if ((coun == 1) && ((dots[0][0] == 0) && (dots[0][1] == 0) || (dots[0][0] == 0) && (dots[0][1] == 8) || (dots[0][0] == 8) && (dots[0][1] == 0) || (dots[0][0] == 8) && (dots[0][1] == 8))) {
-            counter = 3;
-        }
-        if ((coun < 35) && (connection()) && (flag)) {
-            for (int i = 0; i < coun; i++) {
+        if ((coun < 35) && (connection()) && (flag)) { //Проверка необходимых условий
+            for (int i = 0; i < coun; i++) { //Захват свободной территории
                 board[dots[i][0]][dots[i][1]] = -board[life[0][0]][life[0][1]];
             }
         }
         clean();
     }
 
-    int score(int player) {
+    int score(int player) { //Подсчет очков заданного игрока
         int count = 0;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -269,9 +253,9 @@ public:
 
 
     void game() {
-        sf::RenderWindow window(sf::VideoMode(621, 621), "Go");
+        sf::RenderWindow window(sf::VideoMode(621, 621), "Go"); //Игровое окно
         sf::Texture texture;
-        sf::CircleShape shape(20.f);
+        sf::CircleShape shape(20.f); 
         sf::RectangleShape rectangle(sf::Vector2f(1000.f, 1000.f));
         rectangle.setFillColor(sf::Color(224, 224, 244));
         window.draw(rectangle);
@@ -280,53 +264,53 @@ public:
         sprite.setTexture(texture);
         sprite.setPosition(20.f, 20.f);
         window.draw(sprite);
-        window.display();
-        setlocale(LC_ALL, "Russian");
+        window.display(); //Выведение начального игрового поля
+        setlocale(LC_ALL, "Russian"); //Использование русского языка в консоли
         cout << "Управление стрелками, чтобы сбросить поле нажмите R \n z - спасовать ход (2 паса подряд - ничья) \n У каждого игрока по 20 комней, но использовать их все не обязательно \n Счет очков идет по захваченным территория и пленным, отмеченым в конце номером игрока умноженым на -1 \n esc чтобы выключить \n Удачи!";
         HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-        SetConsoleTextAttribute(handle, FOREGROUND_RED);
-        int key, stone1 = 20, stone2 = 20, pas = 0, oppos = 1, whoturn = 2, i = 4, j = 4;
-        while (window.isOpen()) {
-            key = _getch();
+        SetConsoleTextAttribute(handle, FOREGROUND_RED); //Изменение цвета текста в консоли
+        int key, stone1 = 20, stone2 = 20, pas = 0, whoturn = 2, i = 4, j = 4; //Номер нажатой кнопки, камни первого и второго игрока, кол-во пасов подряд, игрок кто будет хлдтть следующим, кто ходит, начальнык координаты
+        while (window.isOpen()) { //Цикл работающий пока открыто окно
+            key = _getch(); // Считывание нажатой кнопки
             cout << "Нажимайте кнопки, чтобы выбрать ячейки";
-            while ((key != 13) && (key != 122) && (key != 239) && (key != 27)) {
+            while ((key != 13) && (key != 122) && (key != 239) && (key != 27)) { //Проверка на нажатие z, enter, esc
                 system("cls");
                 switch (key)
                 {
-                case 27: window.close();
+                case 27: window.close(); //esc(Выключение программы)
                     break;
-                case 75: if (j != 0) {
+                case 75: if (j != 0) { //Стрелка влево и провека возможности перемещения туда
                     j--;
                 }
                        else {
                     cout << "Перемещение влево невозможно\n";
                 }
                        break;
-                case 72: if (i != 0) { i--; }
+                case 72: if (i != 0) { i--; } //Стрелка вверх и провека возможности перемещения туда
                        else {
                     cout << "Перемещение вверх невозможно\n";
                 }
                        break;
-                case 77: if (j != 8) { j++; }
+                case 77: if (j != 8) { j++; } //Стрелка вправо и провека возможности перемещения туда
                        else {
                     cout << "Перемещение вправо невозможно\n";
                 }
                        break;
-                case 80: if (i != 8) { i++; }
+                case 80: if (i != 8) { i++; } //Стрелка вниз и провека возможности перемещения туда
                        else {
                     cout << "Перемещение вниз невозможно\n";
                 }
                        break;
-                case 114: reset();
+                case 114: reset(); //кнопка r(перезапуск)
                     stone1 = 20;
                     stone2 = 20;
                     break;
-                case 170: reset();
+                case 170: reset();//кнопка r(перезапуск)
                     stone1 = 20;
                     stone2 = 20;
                     break;
                 }
-                window.clear();
+                window.clear(); //Выведение выбранной клетки
                 window.draw(rectangle);
                 window.draw(sprite);
                 if (whoturn == 1) {
@@ -343,7 +327,7 @@ public:
                     window.draw(shape);
                     shape.setRadius(20.f);
                 }
-                for (int i1 = 0; i1 < 9; i1++) {
+                for (int i1 = 0; i1 < 9; i1++) { //Выведение игрового поля
                     for (int j1 = 0; j1 < 9; j1++) {
                         if (board[i1][j1] == 1) {
                             float i2, j2;
@@ -376,38 +360,22 @@ public:
                     cout << endl;
                 }
                 window.display();
-                cout << "-------------------------------------------------------\n Ходит игрок номер " << whoturn;
+                cout << "-------------------------------------------------------\n Ходит игрок номер " << whoturn; //Выведение кто ходит
                 key = _getch();
             }
-            if ((key == 239) || (key == 122)) {
+            if ((key == 239) || (key == 122)) { //Проверка паса(Нажатя z)
                 pas++;
-                switch (whoturn) {
+                switch (whoturn) { //Смена игрока
                 case 1: whoturn++;
-                    oppos--;
                     break;
                 case 2: whoturn--;
-                    oppos++;
                     break;
                 }
-                if (pas == 2) {
-                    isEnd();
-                    window.clear(); 
+                if (pas == 2) { // Провека двух пасов подряд
+                    isEnd(); // Окончание игры
+                    window.clear(); //Выведение окончательного поля
                     window.draw(rectangle);
                     window.draw(sprite);
-                    if (whoturn == 1) {
-                        shape.setRadius(10.f);
-                        shape.setFillColor(sf::Color::White);
-                        shape.setPosition(0, 0);
-                        window.draw(shape);
-                        shape.setRadius(20.f);
-                    }
-                    else {
-                        shape.setRadius(10.f);
-                        shape.setFillColor(sf::Color::Black);
-                        shape.setPosition(0, 0);
-                        window.draw(shape);
-                        shape.setRadius(20.f);
-                    }
                     for (int i1 = 0; i1 < 9; i1++) {
                         for (int j1 = 0; j1 < 9; j1++) {
                             if (board[i1][j1] == 1) {
@@ -430,17 +398,17 @@ public:
                     }
                     window.display();
                     key = _getch();
-                    while ((key != 114) && (key != 170)) {
+                    while ((key != 114) && (key != 170)) { //Бесконеченый цикл пока не перезапустят поле
                         key = _getch();
                         cout << "Для рестарта нажмите R\n";
                     }
-                    reset();
+                    reset(); //Перезапуск игры
                     stone1 = 20;
                     stone2 = 20;
                 }
                 else {
                     system("cls");
-                    if (whoturn == 1) {
+                    if (whoturn == 1) { //Выведение кто ходит
                         shape.setRadius(10.f);
                         shape.setFillColor(sf::Color::White);
                         shape.setPosition(0, 0);
@@ -454,8 +422,8 @@ public:
                         window.draw(shape);
                         shape.setRadius(20.f);
                     }
-                    window.display();
-                    for (int i1 = 0; i1 < 9; i1++) {
+                    window.display(); 
+                    for (int i1 = 0; i1 < 9; i1++) { //выведение игрового поля в консоль
                         for (int j1 = 0; j1 < 9; j1++) {
                             if ((i1 == i) && (j1 == j)) {
                                 SetConsoleTextAttribute(handle, FOREGROUND_GREEN);
@@ -466,19 +434,19 @@ public:
                         }
                         cout << endl;
                     }
-                    cout << "-------------------------------------------------------\n Ходит игрок номер " << whoturn;
+                    cout << "-------------------------------------------------------\n Ходит игрок номер " << whoturn; //Выведение кто ходит в консоль
                 }
             }
-            else if (key == 27) {
+            else if (key == 27) { //Выключение если нажат esc
                 break;
             }
             else {
-                pas = 0;
-                if ((board[i][j] == 0) || (board[i][j] == -whoturn)) {
+                pas = 0; //Обнуление пасов подряд если 1 из игроков не пасовал
+                if ((board[i][j] == 0) || (board[i][j] == -whoturn)) { //Проверка является ли выбранная клетка пустой
                     clean();
-                    board[i][j] = whoturn;
+                    board[i][j] = whoturn; //Ставит камень
                     bool flag = true;
-                    for (int i1 = 0; i1 < 9; i1++) {
+                    for (int i1 = 0; i1 < 9; i1++) { //Захваты после поставленного камня
                         for (int j1 = 0; j1 < 9; j1++) {
                             if ((board[i1][j1] == 1 || board[i1][j1] == 2) && ((i1 != i) || (j1 != j))) {
                                 clean();
@@ -490,16 +458,16 @@ public:
                     }
                     clean();
                     breath(i, j);
-                    for (int i = 0; i < 81; i++) {
+                    for (int i = 0; i < 81; i++) { //Проверка является ли ход самоубийственным
                         if ((life[i][0] != -1) && (life[i][1] != -1)) {
                             flag = false;
                         }
                     }
-                    if (flag == true) {
+                    if (flag == true) { //Отмена хода если он самоубийственный
                         board[i][j] = 0;
                     }
                     system("cls");
-                    window.clear();
+                    window.clear(); //Выведение игрового поля после хода игрока
                     window.draw(rectangle);
                     window.draw(sprite);
                     if (whoturn == 1) {
@@ -539,12 +507,11 @@ public:
                         cout << endl;
                     }
                     window.display();
-                    switch (whoturn) {
+                    switch (whoturn) { //Смена ходящего игрока если ход не самоубийственный и отнятие камней у походившего игрока
                     case 1: if (board[i][j] != 0) {
                         stone1--;
                         if (stone2 != 0) {
                             whoturn++;
-                            oppos--;
                         }
                     }
                           else { cout << "Самоубийственный ход невозможен\n"; }
@@ -553,7 +520,6 @@ public:
                         stone2--;
                         if (stone1 != 0) {
                             whoturn--;
-                            oppos++;
                         }
                     }
                           else { cout << "Самоубийственный ход невозможен\n"; }
